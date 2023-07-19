@@ -1,0 +1,26 @@
+{
+  "name": "my-courses",
+  "version": "1.0.0",
+  "description": "My Courses",
+  "main": ".src/server/server.ts",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Nesvit_Vladislav",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "8.45.0",
+    "jest": "29.6.1",
+    "mongoose": "7.4.0",
+    "nodemon": "3.0.1",
+    "supertest": "6.3.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vladn255/my-courses.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vladn255/my-courses/issues"
+  },
+  "homepage": "https://github.com/vladn255/my-courses#readme"
+}
