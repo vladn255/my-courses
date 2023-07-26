@@ -2,12 +2,12 @@ import {Comment} from "../models/comment.model";
 
 export class commentService {
     static async createComment({
-                            lessonId,
+                            lessonTitle,
                             text
-                        }: { lessonId: string, text: string }) {
+                        }: { lessonTitle: string, text: string }) {
 
         const newComment = new Comment({
-            lessonId,
+            lessonTitle,
             text,
         });
         return await newComment.save()
@@ -22,9 +22,9 @@ export class commentService {
         }
     }
 
-    static async deleteManyComments(lessonId: string) {
+    static async deleteManyComments(lessonTitle: string) {
         return Comment.deleteMany({
-            lessonId: lessonId
+            lessonTitle
         })
     }
 }

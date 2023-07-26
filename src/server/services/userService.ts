@@ -1,5 +1,4 @@
 import {IUser, User} from '../models/user.model'
-import mongoose from "mongoose";
 
 export class userService {
     static async getAllUsers () {
@@ -9,11 +8,9 @@ export class userService {
 
     static async createUser (name: string) {
         const newUser = new User({
-            _id: new mongoose.Types.ObjectId().toHexString(),
             name
         })
-        const user = await newUser.save()
-        return user;
+        return await newUser.save();
     }
 
     static async getUser (id: string) {

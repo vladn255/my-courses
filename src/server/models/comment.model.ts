@@ -6,12 +6,12 @@ const Schema = mongoose.Schema
 
 export interface IComment {
     _id: string,
-    lessonId: string,
+    lessonTitle: string,
     text: string,
 }
 
 export const CommentSchema = new Schema({
-    lessonId: { type: String, required: true },
+    lessonTitle: { type: String, required: true },
     text: { type: String, required: true}
 })
 

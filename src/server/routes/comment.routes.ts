@@ -6,13 +6,13 @@ const router = express.Router()
 
 router.post('/', async (req, res) => {
     const {
-        lessonId,
+        lessonTitle,
         text
     } = req.body;
 
     try {
-        const comment = commentService.createComment({
-            lessonId,
+        const comment = await commentService.createComment({
+            lessonTitle,
             text,
         });
         res.status(201).send(comment)

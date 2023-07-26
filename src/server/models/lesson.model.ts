@@ -8,7 +8,7 @@ const Schema = mongoose.Schema
 
 export interface ILesson {
     _id: string,
-    courseId: string,
+    courseTitle: string,
     title: string,
     description: string,
     comments?: IComment[],
@@ -16,7 +16,7 @@ export interface ILesson {
 }
 
 export const LessonSchema = new Schema({
-    courseId: { type: String, required: true},
+    courseTitle: { type: String, required: true},
     title: { type: String, required: true },
     description: { type: String, required: true },
     comments: { type: [CommentSchema]}

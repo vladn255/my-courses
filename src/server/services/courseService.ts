@@ -1,9 +1,8 @@
 import {Course} from "../models/course.model";
 import {COLLECTIONS} from "../constants";
 import {lessonService} from "./lessonService";
-import {commentService} from "./commentService";
-import {ILesson, Lesson} from "../models/lesson.model";
-import {Comment} from "../models/comment.model";
+import {Types} from "mongoose";
+import {Lesson} from "../models/lesson.model";
 
 export class courseService {
     static async getAllCourses() {
@@ -11,14 +10,14 @@ export class courseService {
     }
 
     static async createCourse({
-                           authorId,
+                           authorName,
                            title,
                            description
-                       }: { authorId: string, title: string, description: string }) {
+                       }: { authorName: string, title: string, description: string }) {
         const newCourse = new Course({
             title,
             description,
-            authorId
+            authorName
         });
         return await newCourse.save();
     }
@@ -26,14 +25,14 @@ export class courseService {
     static async getCourse(id: string) {
         const course = await Course.aggregate([{
             $match: {
-                _id: id,
+                _id: new Types.ObjectId(id),
             }
         },
             {
                 $lookup: {
                     from: COLLECTIONS.LESSONS,
-                    localField: '_id',
-                    foreignField: 'courseId',
+                    localField: 'title',
+                    foreignField: 'courseTitle',
                     as: 'lessons'
                 }
             }

@@ -3,26 +3,31 @@ import {lessonService} from "../services/lessonService";
 
 const router = express.Router()
 
-router.get('/:courseId', async (req, res) => {
-    const {courseId} = req.params;
-    try {
-       const lessons = await lessonService.getAllLessons(courseId)
-        res.status(201).send(lessons)
-    } catch {
-        res.status(500).send({error: 'Server error'})
+router.get('/', async (req, res) => {
+    const {courseId} = req.query;
+
+    if (courseId) {
+        try {
+            const lessons = await lessonService.getAllLessons(courseId.toString())
+            res.status(201).send(lessons)
+        } catch {
+            res.status(500).send({error: 'Server error'})
+        }
+    } else {
+        res.sendStatus(404).send({error: 'Not found'})
     }
 })
 
 router.post('/', async (req, res) => {
     const {
-        courseId,
+        courseTitle,
         title,
         description
     } = req.body;
 
     try {
         const lesson = await lessonService.createLesson({
-            courseId,
+            courseTitle,
             title,
             description
         })
@@ -34,16 +39,19 @@ router.post('/', async (req, res) => {
 
 router.get('/:lessonId', async (req, res) => {
     const {lessonId} = req.params;
-
-    try {
-        const lesson = await lessonService.getLesson(lessonId);
-        if (lesson === null) {
-            res.sendStatus(404).send({error: 'Not found'})
-        } else {
-            res.send(lesson)
+    if (lessonId) {
+        try {
+            const lesson = await lessonService.getLesson(lessonId.toString());
+            if (lesson === null) {
+                res.sendStatus(404).send({error: 'Not found'})
+            } else {
+                res.send(lesson)
+            }
+        } catch {
+            res.status(500).send({error: 'Server error'})
         }
-    } catch {
-        res.status(500).send({error: 'Server error'})
+    } else {
+        res.sendStatus(404).send({error: 'Not found'})
     }
 })
 

@@ -1,37 +1,39 @@
 import {Course} from "../models/course.model";
-import {ILesson, Lesson} from "../models/lesson.model";
+import {Lesson} from "../models/lesson.model";
 import {commentService} from "./commentService";
+import {Types} from "mongoose";
 
 export class lessonService {
     static async getAllLessons(id: string) {
         const course = await Course.findById(id);
+
         const lessons = await Lesson.aggregate([{
             $match: {
-                courseId: course?._id
+                courseTitle: course?.title
             }
         },
             {
                 $lookup: {
                     from: 'comments',
-                    localField: '_id',
-                    foreignField: 'lessonId',
+                    localField: 'title',
+                    foreignField: 'lessonTitle',
                     as: 'comments',
                 }
             }])
         return lessons || null;
-    };
+    }
 
     static async createLesson({
-                           courseId,
+                           courseTitle,
                            title,
                            description
                        }: {
-        courseId: string,
+        courseTitle: string,
         title: string,
         description: string
     }) {
         const newLesson = new Lesson({
-            courseId,
+            courseTitle,
             title,
             description
         });
@@ -42,14 +44,14 @@ export class lessonService {
     static async getLesson(id: string) {
         const lesson = await Lesson.aggregate([{
             $match: {
-                _id: id
+                _id: new Types.ObjectId(id)
             }
         },
             {
                 $lookup: {
                     from: 'comments',
-                    localField: '_id',
-                    foreignField: 'lessonId',
+                    localField: 'title',
+                    foreignField: 'lessonTitle',
                     as: 'comments',
                 }
             }])
@@ -66,10 +68,10 @@ export class lessonService {
         }
     }
 
-    static async deleteCourseLessons(courseId: string) {
+    static async deleteCourseLessons(courseTitle: string) {
         const courseLessons = await Lesson.aggregate([{
             $match: {
-                courseId: courseId,
+                courseTitle,
             }
         }]);
 
@@ -78,7 +80,7 @@ export class lessonService {
         }
 
         return Lesson.deleteMany({
-            courseId: courseId
+            courseTitle
         })
     }
 }

@@ -9,16 +9,16 @@ export interface ICourse {
     _id: string,
     title: string,
     description: string,
-    authorId: string,
-    allowedUserIds?: string[],
+    authorName: string,
+    allowedUserNames?: string[],
     lessons?: ILesson,
 }
 
 export const CourseSchema = new Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
-    authorId: { type: String, required: true },
-    allowedUserIds: { type: [String] },
+    authorName: { type: String, required: true },
+    allowedUserNames: { type: [String] },
     lessons: { type: [LessonSchema]}
 })
 

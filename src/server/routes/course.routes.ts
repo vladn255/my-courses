@@ -14,14 +14,14 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     const {
-        authorId,
+        authorName,
         title,
         description
     } = req.body;
 
     try {
         const course = await courseService.createCourse({
-            authorId,
+            authorName,
             title,
             description
         })
